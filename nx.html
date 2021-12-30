@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"data": {"children": ["Blog"], "endpoint": {"endpoint_function": "\u003cfunction home at 0x7f9edf102160\u003e", "hits": 1}, "node_id": "Home", "parents": []}, "id": "Home", "label": "Home", "shape": "dot", "size": 10}, {"data": {"children": ["About"], "endpoint": {"endpoint_function": "\u003cfunction contact at 0x7f9edf0faf70\u003e", "hits": 1}, "node_id": "Contact", "parents": []}, "id": "Contact", "label": "Contact", "shape": "dot", "size": 10}, {"data": {"children": ["Events"], "endpoint": {"endpoint_function": "\u003cfunction blog at 0x7f9edf0fae50\u003e", "hits": 1}, "node_id": "Blog", "parents": []}, "id": "Blog", "label": "Blog", "shape": "dot", "size": 10}, {"data": {"children": [], "endpoint": {"endpoint_function": "\u003cfunction about at 0x7f9edf0faee0\u003e", "hits": 1}, "node_id": "About", "parents": []}, "id": "About", "label": "About", "shape": "dot", "size": 10}, {"data": {"children": ["About"], "endpoint": {"endpoint_function": "\u003cfunction events at 0x7f9edf1020d0\u003e", "hits": 1}, "node_id": "Events", "parents": []}, "id": "Events", "label": "Events", "shape": "dot", "size": 10}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "Home", "to": "Contact", "weight": 1}, {"arrows": "to", "from": "Home", "to": "Blog", "weight": 1}, {"arrows": "to", "from": "Contact", "to": "Home", "weight": 1}, {"arrows": "to", "from": "Contact", "to": "About", "weight": 1}, {"arrows": "to", "from": "Blog", "to": "Events", "weight": 1}, {"arrows": "to", "from": "Events", "to": "About", "weight": 1}, {"arrows": "to", "from": "About", "to": "Contact", "weight": 1}, {"arrows": "to", "from": "About", "to": "About", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -61,14 +61,14 @@
         {% comment %} <center> {% endcomment %}
           <div class="my-5 mx-5 container-fluid">
             <h2 class="text-center">Time Series:</h2>
-            <table class="table table-striped table-bordered container-fluid">
+            <table class="table table-striped table-bordered container-fluid" id="timeSeriesTable">
               <thead class="table-dark">
                 <th><b>Function name/Endpoint:</b></th>
                 {% comment %} <th><b>Hits:</b></th> {% endcomment %}
                 <th><b>Time accessed:</b></th>
               </thead>
               <tbody>
-                {% for i in time_series.nodes %}
+                {% for i in time_series|slice:":10" %}
                   <tr>
                     <td>{{ i.id|safe }}</td>
                     {% comment %} <td>{{ i.hits|safe }}</td> {% endcomment %}
@@ -82,7 +82,7 @@
         {% comment %} <center> {% endcomment %}
           <div class="my-5 mx-5 container-fluid">
             <h2 class="text-center">Statistics:</h2>
-            <table class="table table-striped table-bordered container-fluid">
+            <table class="table table-striped table-bordered container-fluid" id="hitCountsTable">
               <thead class="table-dark">
                 <th><b>Function name/Endpoint:</b></th>
                 <th><b>Hits:</b></th>

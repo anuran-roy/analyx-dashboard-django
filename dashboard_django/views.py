@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from django.http import StreamingHttpResponse
 
 from typing import Dict, List, Any, Tuple, NewType
 from . import models
@@ -101,15 +102,20 @@ def home(request):
 
 def dashboard(request):
     # G = nx.random_geometric_graph(20, 0.25)
+    if request.user.is_superuser:
+        graph = metricman.graph.visualize
+        # print(f"\n{graph}\n")
 
-    graph = metricman.graph.visualize
-    # print(f"\n{graph}\n")
+        plot = vs.directed_pyvis(graph)
+        # for i in metricman.pipeline(data="time_series", mode="live", interval=1, duration=5):
+        #     print(i)
+        return render(request, "dashboard_django/index.html", {
+            "plot": plot,
+            "time_series": sorted(metricman.time_series()["nodes"], key=lambda x:x["time"], reverse=True),
+            "stats": sorted(metricman.aggregate().items(), key=lambda x:x[1], reverse=True)
+        })
+    else:
+        return HttpResponse("<h1>Page doesn't exist!</h1>")
 
-    plot = vs.directed_pyvis(graph)
-
-    return render(request, "dashboard_django/index.html", {
-        "plot": plot,
-        "time_series": metricman.time_series(),
-        "stats": metricman.stats().items()
-    })
-
+def streaming(request):
+    return StreamingHttpResponse(f"{metricman.pipeline}<br>")

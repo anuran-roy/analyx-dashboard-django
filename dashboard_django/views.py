@@ -16,8 +16,8 @@ import networkx as nx
 from pyvis.network import Network
 import json
 
-from analyx import metrics, endpoints, flow
-import analyx.visualize as vs
+from pymetrix import metrics, endpoints, flow
+import pymetrix.visualize as vs
 # Create your views here.
 
 
